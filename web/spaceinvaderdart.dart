@@ -20,7 +20,7 @@ Tween tween;
 void main() {
   // setup the Stage and RenderLoop
   html.Element canvas = html.querySelector('#stage');
-  stage = new Stage(canvas);
+  stage = new Stage(canvas,webGL:true);
   renderLoop = new RenderLoop();
   juggler = renderLoop.juggler;
   renderLoop.addStage(stage);
