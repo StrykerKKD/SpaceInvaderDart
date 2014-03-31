@@ -8,6 +8,7 @@ import 'package:stagexl/stagexl.dart';
 //-----------------------------------------------------------------------------
 
 part 'Ship.dart';
+part 'Bullet.dart';
 
 //-----------------------------------------------------------------------------
 
@@ -15,7 +16,9 @@ Stage stage;
 RenderLoop renderLoop;
 ResourceManager resourceManager;
 Juggler juggler;
-Tween tween;
+Ship ship;
+Bullet bullet;
+
 
 void main() {
   // setup the Stage and RenderLoop
@@ -25,15 +28,17 @@ void main() {
   juggler = renderLoop.juggler;
   renderLoop.addStage(stage);
 
-  //Making a resourceManager and 
+  //Making a resourceManager and adding resources
   resourceManager = new ResourceManager()
-    ..addBitmapData("ship", "images/playerShip1_blue.png");
+    ..addBitmapData("ship", "images/playerShip1_blue.png")
+    ..addBitmapData("bullet","images/laserBlue01.png");
   
   //loading resources via resourceManager
   resourceManager.load().then((_){
 
-    //making our ship
-    Ship ship = new Ship(resourceManager.getBitmapData("ship"),100,100);
+    //making our ship and bullet
+    ship = new Ship(resourceManager.getBitmapData("ship"),100,100);
+		bullet = new Bullet(resourceManager.getBitmapData("bullet"),0,200);
 
     //add the ship to the stage and the juggler
     stage.addChild(ship);
@@ -43,13 +48,16 @@ void main() {
     //so we can use it for keyboard events
     stage.focus = stage;
     
+    //spacebar
+    const spacebar = 32;
+
     //cursor keys
     const leftArrow = 37;
     const upArrow = 38;
     const rightArrow = 39;
     const downArrow = 40;
 
-    //Event handling for cursor keys onKeyDown events
+    //Event handling for cursor KeyDown events
     // value is a Keyboard event
     stage.onKeyDown.listen((value){
       //print(value.keyCode);
@@ -69,7 +77,16 @@ void main() {
             ship.movingDown = true;
             break;
       }
-        
+
+      //shooting bullet
+      if(value.keyCode == spacebar){
+	      bullet.x = ship.x;
+	      bullet.y = ship.y - ship.height;
+
+	      stage.addChild(bullet);
+	      stage.juggler.add(bullet);
+	    }
+
     });
 
     //Event listener for cursor keyUP events
