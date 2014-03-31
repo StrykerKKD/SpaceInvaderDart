@@ -31,13 +31,13 @@ void main() {
   
   //loading resources via resourceManager
   resourceManager.load().then((_){
+
     //making our ship
-    Bitmap ship = new Bitmap(resourceManager.getBitmapData("ship"));
-    
-    //add the ship to the stage
+    Ship ship = new Ship(resourceManager.getBitmapData("ship"),100,100);
+
+    //add the ship to the stage and the juggler
     stage.addChild(ship);
-    ship.x = 400;
-    ship.y = 300;
+    stage.juggler.add(ship);
     
     //the stage needs to be an interactive object,
     //so we can use it for keyboard events
@@ -49,35 +49,24 @@ void main() {
     const rightArrow = 39;
     const downArrow = 40;
 
-    //calculating the speed of the ship
-    int distanceInPixels = 50;
-    double timeInSeconds = 0.5;
-    int speed = (distanceInPixels/timeInSeconds).round();
-
     //Event handling for cursor keys onKeyDown events
     // value is a Keyboard event
     stage.onKeyDown.listen((value){
       //print(value.keyCode);
 
-      tween = new Tween(ship, timeInSeconds, TransitionFunction.linear);
-
       //switch statemant to decide which cursor keys was down
       switch(value.keyCode){
           case leftArrow:
-            tween.animate.x.to(ship.x-speed);
-            juggler.add(tween);
+            ship.movingLeft = true;
             break;
           case upArrow:
-            tween.animate.y.to(ship.y-speed);
-            juggler.add(tween);
+            ship.movingUp = true;
             break;
           case rightArrow:
-            tween.animate.x.to(ship.x+speed);
-            juggler.add(tween);
+            ship.movingRight = true;
             break;
           case downArrow:
-            tween.animate.y.to(ship.y+speed);
-            juggler.add(tween);
+            ship.movingDown = true;
             break;
       }
         
@@ -86,9 +75,19 @@ void main() {
     //Event listener for cursor keyUP events
     stage.onKeyUp.listen((value){
 
-      //the keycode is a cursor key
-      if(value.keyCode >= 37 || value.keyCode <= 40){
-        juggler.removeTweens(ship);
+      switch(value.keyCode){
+        case leftArrow:
+          ship.movingLeft = false;
+          break;
+        case upArrow:
+          ship.movingUp = false;
+          break;
+        case rightArrow:
+          ship.movingRight = false;
+          break;
+        case downArrow:
+          ship.movingDown = false;
+          break;
       }
 
     });
