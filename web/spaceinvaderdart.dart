@@ -24,10 +24,10 @@ void main() {
   renderLoop = new RenderLoop();
   juggler = renderLoop.juggler;
   renderLoop.addStage(stage);
-  
+
   //Making a resourceManager and 
   resourceManager = new ResourceManager()
-    ..addBitmapData("ship", "./assets/playerShip1_blue.png");
+    ..addBitmapData("ship", "images/playerShip1_blue.png");
   
   //loading resources via resourceManager
   resourceManager.load().then((_){
@@ -44,41 +44,54 @@ void main() {
     stage.focus = stage;
     
     //cursor keys
-    const left_arrow = 37;
-    const up_arrow = 38;
-    const right_arrow = 39;
-    const down_arrow = 40;
+    const leftArrow = 37;
+    const upArrow = 38;
+    const rightArrow = 39;
+    const downArrow = 40;
 
-    //speed of the ship
-    int speed = 20;
+    //calculating the speed of the ship
+    int distanceInPixels = 50;
+    double timeInSeconds = 0.5;
+    int speed = (distanceInPixels/timeInSeconds).round();
 
-    //Event handling for cursor keys, onKeyDown return a Keyboard event 
+    //Event handling for cursor keys onKeyDown events
+    // value is a Keyboard event
     stage.onKeyDown.listen((value){
       //print(value.keyCode);
 
-      tween = new Tween(ship, 0.1, TransitionFunction.linear);
+      tween = new Tween(ship, timeInSeconds, TransitionFunction.linear);
 
       //switch statemant to decide which cursor keys was down
       switch(value.keyCode){
-          case left_arrow:
+          case leftArrow:
             tween.animate.x.to(ship.x-speed);
             juggler.add(tween);
             break;
-          case up_arrow:
+          case upArrow:
             tween.animate.y.to(ship.y-speed);
             juggler.add(tween);
             break;
-          case right_arrow:
+          case rightArrow:
             tween.animate.x.to(ship.x+speed);
             juggler.add(tween);
             break;
-          case down_arrow:
+          case downArrow:
             tween.animate.y.to(ship.y+speed);
             juggler.add(tween);
             break;
       }
         
-    });    
+    });
+
+    //Event listener for cursor keyUP events
+    stage.onKeyUp.listen((value){
+
+      //the keycode is a cursor key
+      if(value.keyCode >= 37 || value.keyCode <= 40){
+        juggler.removeTweens(ship);
+      }
+
+    });
   
   });
 }
