@@ -38,7 +38,14 @@ void main() {
 
     //making our ship and bullet
     ship = new Ship(resourceManager.getBitmapData("ship"),100,100);
-		bullet = new Bullet(resourceManager.getBitmapData("bullet"),0,200);
+		//bullet = new Bullet(resourceManager.getBitmapData("bullet"),0,200);
+
+    List<Bullet> bulletList = new List<Bullet>();
+
+    for(var i=0;i < 5;i++){
+	    bulletList.add(new Bullet(resourceManager.getBitmapData("bullet"),0,200));
+    }
+
 
     //add the ship to the stage and the juggler
     stage.addChild(ship);
@@ -49,7 +56,7 @@ void main() {
     stage.focus = stage;
     
     //spacebar
-    const spacebar = 32;
+    const spaceBar = 32;
 
     //cursor keys
     const leftArrow = 37;
@@ -79,9 +86,11 @@ void main() {
       }
 
       //shooting bullet
-      if(value.keyCode == spacebar){
+      if(value.keyCode == spaceBar){
+	      bullet = bulletList.firstWhere((item)=> item.alive == false);
 	      bullet.x = ship.x;
 	      bullet.y = ship.y - ship.height;
+	      bullet.alive = true;
 
 	      stage.addChild(bullet);
 	      stage.juggler.add(bullet);

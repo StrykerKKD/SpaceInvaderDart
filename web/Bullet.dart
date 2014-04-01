@@ -2,6 +2,7 @@ part of spaceinvader;
 
 class Bullet extends Bitmap implements Animatable  {
 	num _vx, _vy;
+	bool alive = false;
 
 	Bullet(BitmapData bitmapData,this._vx,this._vy) : super(bitmapData){
 		this.pivotX = bitmapData.width / 2;
@@ -13,6 +14,7 @@ class Bullet extends Bitmap implements Animatable  {
 		if(y <= this.height){
 			stage.removeChild(this);
 			stage.juggler.remove(this);
+			this.alive = false;
 		}
 		y = y - _vy * time;
 	}
