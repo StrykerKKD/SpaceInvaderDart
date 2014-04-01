@@ -12,7 +12,7 @@ class Ship extends Bitmap implements Animatable {
     this.pivotX = bitmapData.width / 2;
     this.pivotY = bitmapData.height / 2;
     this.x = 400;
-    this.y = 300;
+    this.y = 500;
   }
 
   bool advanceTime(num time){

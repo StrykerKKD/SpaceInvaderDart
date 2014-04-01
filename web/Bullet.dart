@@ -11,7 +11,7 @@ class Bullet extends Bitmap implements Animatable  {
 
 	bool advanceTime(num time){
 		//kill it before it reaches the upper border of the stage
-		if(y <= this.height){
+		if(y <= this.height/2){
 			stage.removeChild(this);
 			stage.juggler.remove(this);
 			this.alive = false;

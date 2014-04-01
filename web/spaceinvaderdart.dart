@@ -8,6 +8,7 @@ import 'package:stagexl/stagexl.dart';
 //-----------------------------------------------------------------------------
 
 part 'Ship.dart';
+part 'Ufo.dart';
 part 'Bullet.dart';
 
 //-----------------------------------------------------------------------------
@@ -17,6 +18,7 @@ RenderLoop renderLoop;
 ResourceManager resourceManager;
 Juggler juggler;
 Ship ship;
+Ufo ufo;
 Bullet bullet;
 
 
@@ -31,17 +33,22 @@ void main() {
   //Making a resourceManager and adding resources
   resourceManager = new ResourceManager()
     ..addBitmapData("ship", "images/playerShip1_blue.png")
-    ..addBitmapData("bullet","images/laserBlue01.png");
+    ..addBitmapData("bullet","images/laserBlue01.png")
+    ..addBitmapData("ufo","images/ufoRed.png");
   
   //loading resources via resourceManager
   resourceManager.load().then((_){
 
-    //making our ship and bullet
+    //making our ship and ufo
     ship = new Ship(resourceManager.getBitmapData("ship"),100,100);
-		//bullet = new Bullet(resourceManager.getBitmapData("bullet"),0,200);
+    ufo = new Ufo(resourceManager.getBitmapData("ufo"),100,100);
 
+    //List of bullets
     List<Bullet> bulletList = new List<Bullet>();
 
+    List<Bullet> aliveBulletList = new List<Bullet>();
+
+    //Making the list
     for(var i=0;i < 5;i++){
 	    bulletList.add(new Bullet(resourceManager.getBitmapData("bullet"),0,200));
     }
@@ -50,6 +57,9 @@ void main() {
     //add the ship to the stage and the juggler
     stage.addChild(ship);
     stage.juggler.add(ship);
+
+    //add the alien to the stage
+    stage.addChild(ufo);
     
     //the stage needs to be an interactive object,
     //so we can use it for keyboard events
@@ -87,10 +97,10 @@ void main() {
 
       //shooting bullet
       if(value.keyCode == spaceBar){
-	      bullet = bulletList.firstWhere((item)=> item.alive == false);
-	      bullet.x = ship.x;
-	      bullet.y = ship.y - ship.height;
-	      bullet.alive = true;
+	      bullet = bulletList.firstWhere((item)=> item.alive == false)
+	        ..x = ship.x
+	        ..y = ship.y - ship.height
+	        ..alive = true;
 
 	      stage.addChild(bullet);
 	      stage.juggler.add(bullet);
@@ -117,6 +127,22 @@ void main() {
       }
 
     });
+
+    //Event listener for every frame
+	  stage.onEnterFrame.listen((_){
+		  //get alive bullets
+		  aliveBulletList.addAll(bulletList.where((item)=> item.alive==true));
+
+		  //test if they hit the ufo
+			aliveBulletList.forEach((item){
+				if(ufo.hitTestObject(item)){
+					stage.removeChild(ufo);
+				}
+			});
+
+		  aliveBulletList.clear();
+
+	  });
   
   });
 }
