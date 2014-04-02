@@ -137,6 +137,7 @@ void main() {
 			aliveBulletList.forEach((item){
 				if(ufo.hitTestObject(item)){
 					stage.removeChild(ufo);
+					item.alive = false;
 				}
 			});
 
