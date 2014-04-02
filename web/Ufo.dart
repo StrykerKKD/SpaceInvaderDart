@@ -2,13 +2,13 @@ part of spaceinvader;
 
 class Ufo extends Bitmap {
 
-	num _vx, _vy;
+	num _x, _y;
 
-	Ufo(BitmapData bitmapData,this._vx,this._vy) : super(bitmapData){
+	Ufo(BitmapData bitmapData,this._x,this._y) : super(bitmapData){
 		this.pivotX = bitmapData.width / 2;
 		this.pivotY = bitmapData.height / 2;
-		this.x = 400;
-		this.y = 50;
+		this.x = _x;
+		this.y = _y;
 	}
 
 	/*bool advanceTime(num time){

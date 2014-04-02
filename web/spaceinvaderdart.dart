@@ -39,9 +39,8 @@ void main() {
   //loading resources via resourceManager
   resourceManager.load().then((_){
 
-    //making our ship and ufo
+    //Making our ship and ufo
     ship = new Ship(resourceManager.getBitmapData("ship"),100,100);
-    ufo = new Ufo(resourceManager.getBitmapData("ufo"),100,100);
 
     //List of bullets
     List<Bullet> bulletList = new List<Bullet>();
@@ -53,13 +52,20 @@ void main() {
 	    bulletList.add(new Bullet(resourceManager.getBitmapData("bullet"),0,200));
     }
 
+    //list of Ufos
+    List<Ufo> ufoList = new List<Ufo>();
+
+    //Making the list
+    for(var i=1;i < 8;i++){
+			ufo = new Ufo(resourceManager.getBitmapData("ufo"),i*100,50);
+	    ufoList.add(ufo);
+	    stage.addChild(ufo);
+    }
 
     //add the ship to the stage and the juggler
     stage.addChild(ship);
     stage.juggler.add(ship);
 
-    //add the alien to the stage
-    stage.addChild(ufo);
     
     //the stage needs to be an interactive object,
     //so we can use it for keyboard events
@@ -133,12 +139,14 @@ void main() {
 		  //get alive bullets
 		  aliveBulletList.addAll(bulletList.where((item)=> item.alive==true));
 
-		  //test if they hit the ufo
-			aliveBulletList.forEach((item){
-				if(ufo.hitTestObject(item)){
-					stage.removeChild(ufo);
-					item.alive = false;
-				}
+		  //test if bullet hit an ufo
+			aliveBulletList.forEach((alien){
+				ufoList.forEach((ufo){
+					if(ufo.hitTestObject(alien)){
+						stage.removeChild(ufo);
+						alien.alive = false;
+					}
+				});
 			});
 
 		  aliveBulletList.clear();
