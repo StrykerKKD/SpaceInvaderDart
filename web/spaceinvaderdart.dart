@@ -34,10 +34,21 @@ void main() {
   resourceManager = new ResourceManager()
     ..addBitmapData("ship", "images/playerShip1_blue.png")
     ..addBitmapData("bullet","images/laserBlue01.png")
-    ..addBitmapData("ufo","images/ufoRed.png");
+    ..addBitmapData("ufo","images/ufoRed.png")
+    ..addBitmapData("background","images/purple.png");
   
   //loading resources via resourceManager
   resourceManager.load().then((_){
+
+
+	  //Creating background
+	  Sprite sprite = new Sprite();
+	  sprite.graphics.rect(0,0,800,600);
+	  sprite.graphics.fillPattern(new GraphicsPattern.repeat(resourceManager.getBitmapData("background")));
+	  sprite.applyCache(0,0,800,600);
+
+	  stage.addChild(sprite);
+
 
     //Making our ship and ufo
     ship = new Ship(resourceManager.getBitmapData("ship"),100,100);
@@ -66,7 +77,8 @@ void main() {
     stage.addChild(ship);
     stage.juggler.add(ship);
 
-    
+
+
     //the stage needs to be an interactive object,
     //so we can use it for keyboard events
     stage.focus = stage;
