@@ -40,13 +40,22 @@ void main() {
   //loading resources via resourceManager
   resourceManager.load().then((_){
 
+	  int tileHeight = resourceManager.getBitmapData("background").height;
+	  int tileWidth = resourceManager.getBitmapData("background").width;
+
+		int yTimes = (600 / tileHeight).ceil();
+		int xTimes = (800 / tileWidth).ceil();
 
 	  //Creating background
 	  Sprite sprite = new Sprite();
-	  sprite.graphics.rect(0,0,800,600);
-	  sprite.graphics.fillPattern(new GraphicsPattern.repeat(resourceManager.getBitmapData("background")));
-	  sprite.applyCache(0,0,800,600);
-
+	  for(int i=0;i < yTimes;i++){
+		  for(int j=0;j < xTimes;j++){
+				Bitmap backgroundTile = new Bitmap(resourceManager.getBitmapData("background"));
+			  backgroundTile.x = backgroundTile.width * j;
+			  backgroundTile.y = backgroundTile.height * i;
+			  sprite.addChild(backgroundTile);
+		  }
+	  }
 	  stage.addChild(sprite);
 
 
