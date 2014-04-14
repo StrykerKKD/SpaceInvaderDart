@@ -5,8 +5,8 @@ class Bullet extends Bitmap implements Animatable  {
 	bool alive = false;
 
 	Bullet(BitmapData bitmapData,this._vx,this._vy) : super(bitmapData){
-		this.pivotX = bitmapData.width / 2;
-		this.pivotY = bitmapData.height / 2;
+		pivotX = bitmapData.width / 2;
+		pivotY = bitmapData.height / 2;
 	}
 
 	bool advanceTime(num time){

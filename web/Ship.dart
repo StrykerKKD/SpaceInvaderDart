@@ -9,10 +9,10 @@ class Ship extends Bitmap implements Animatable {
   bool movingDown = false;
 
   Ship(BitmapData bitmapData,this._vx,this._vy) : super(bitmapData) {
-    this.pivotX = bitmapData.width / 2;
-    this.pivotY = bitmapData.height / 2;
-    this.x = 400;
-    this.y = 500;
+    pivotX = bitmapData.width / 2;
+    pivotY = bitmapData.height / 2;
+    x = 400;
+    y = 500;
   }
 
   bool advanceTime(num time){
