@@ -61,7 +61,7 @@ void main() {
 
 
     //Making our ship and ufo
-    ship = new Ship(resourceManager.getBitmapData("ship"),100,100);
+    ship = new Ship(resourceManager.getBitmapData("ship"),150,150);
 
     //List of bullets
     List<Bullet> bulletList = new List<Bullet>();
@@ -70,7 +70,7 @@ void main() {
 
     //Making the list
     for(var i=0;i < 5;i++){
-	    bulletList.add(new Bullet(resourceManager.getBitmapData("bullet"),0,200));
+	    bulletList.add(new Bullet(resourceManager.getBitmapData("bullet"),0,300));
     }
 
     //list of Ufos
