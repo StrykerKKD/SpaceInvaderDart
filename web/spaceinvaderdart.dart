@@ -47,10 +47,11 @@ void main() {
 		int xTimes = (800 / tileWidth).ceil();
 
 	  //Creating background
+	  Bitmap backgroundTile;
 	  Sprite sprite = new Sprite();
 	  for(int i=0;i < yTimes;i++){
 		  for(int j=0;j < xTimes;j++){
-				Bitmap backgroundTile = new Bitmap(resourceManager.getBitmapData("background"));
+				backgroundTile = new Bitmap(resourceManager.getBitmapData("background"));
 			  backgroundTile.x = backgroundTile.width * j;
 			  backgroundTile.y = backgroundTile.height * i;
 			  sprite.addChild(backgroundTile);
@@ -77,9 +78,10 @@ void main() {
 
     //Making the list
     for(var i=1;i < 8;i++){
-			ufo = new Ufo(resourceManager.getBitmapData("ufo"),i*100,50);
+			ufo = new Ufo(resourceManager.getBitmapData("ufo"),i*100,50,50,50);
 	    ufoList.add(ufo);
 	    stage.addChild(ufo);
+	    stage.juggler.add(ufo);
     }
 
     //add the ship to the stage and the juggler
@@ -165,6 +167,7 @@ void main() {
 				ufoList.forEach((ufo){
 					if(ufo.hitTestObject(alien)){
 						stage.removeChild(ufo);
+						stage.juggler.remove(ufo);
 						alien.alive = false;
 					}
 				});
