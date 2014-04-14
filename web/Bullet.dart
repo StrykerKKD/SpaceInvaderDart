@@ -14,7 +14,7 @@ class Bullet extends Bitmap implements Animatable  {
 		if(y <= this.height/2 || this.alive==false){
 			stage.removeChild(this);
 			stage.juggler.remove(this);
-			this.alive = false;
+			alive = false;
 		}
 		y = y - _vy * time;
 	}
